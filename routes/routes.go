@@ -13,7 +13,7 @@ func HandleRequests() {
 	r.GET("/:nome", controllers.Saudacao)
 
 	r.POST("/api/new", controllers.NewAluno)
-	r.GET("/api/labels/:age,index,sex,language", controllers.GetLabels)
+	r.GET("/api/labels/:age/:index/:sex/:language", controllers.GetLabels)
 
 	r.Run(":2020")
 }

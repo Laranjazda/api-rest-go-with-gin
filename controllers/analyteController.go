@@ -37,12 +37,12 @@ func ReadLabels(index int, language string) models.Label {
 	var label models.Label
 
 	matchStage := bson.D{{"$match", bson.D{{"index", index}}}}
-	replaceRootStages := bson.D{{"$replaceRoot", bson.D{{"labels" + ".", language}}}}
+	replaceRootStages := bson.D{{"$replaceRoot", bson.D{{"labels", language}}}}
 	projectStage := bson.D{{"$project", bson.D{{"limits", 0}}}}
 
 	pipeline := mongo.Pipeline{matchStage, replaceRootStages, projectStage}
 
-	answer, err := database.AlunosCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
+	answer, err := database.AnalyteCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -68,7 +68,7 @@ func ReadLimits(index, age int, language, sex string) models.Limits {
 
 	pipeline := mongo.Pipeline{matchStage, replaceRootStages, unwindStage, match2Stage, sortStage, groupStage}
 
-	answer, err := database.AlunosCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
+	answer, err := database.AnalyteCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
 	if err != nil {
 		panic(err.Error())
 	}
