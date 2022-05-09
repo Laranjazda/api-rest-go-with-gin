@@ -43,11 +43,7 @@ func ReadLabels(index int, language string) models.Label {
 	pipeline := mongo.Pipeline{matchStage, replaceRootStages, projectStage}
 
 	answer, err := database.AnalyteCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
-	if err != nil {
-		panic(err.Error())
-	}
 
-	// showsWithInfo := models.Label{}
 	if err = answer.All(ctx, &label); err != nil {
 		panic(err)
 	}
@@ -69,11 +65,7 @@ func ReadLimits(index, age int, language, sex string) models.Limits {
 	pipeline := mongo.Pipeline{matchStage, replaceRootStages, unwindStage, match2Stage, sortStage, groupStage}
 
 	answer, err := database.AnalyteCollection().Aggregate(ctx, pipeline, &options.AggregateOptions{})
-	if err != nil {
-		panic(err.Error())
-	}
 
-	// showsWithInfo := models.Limits{}
 	if err = answer.All(ctx, &limits); err != nil {
 		panic(err)
 	}
